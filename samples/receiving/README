@@ -1,0 +1,33 @@
+This is a sample Django app which demonstrates how to receive Mailgun-routed 
+emails via HTTP POST
+
+Installation
+------------
+
+> pip install django
+> cd receiving
+> ./start-server.sh
+
+
+Setup
+-----
+
+Set up your routes in urls.py:
+
+One for receiving parsed messages (nice):
+    (r'mime$', 'receiving.callback.views.upload_mime')  
+
+One for receiving MIME messages, if you want to do your own MIME parsing:
+    (r'.*', 'receiving.callback.views.upload')
+
+So you should have two urls now, ready to be used as destinations for Mailgun routes:
+
+http://yourdomain.com/upload_mime
+http://yourdomain.com/upload    
+
+Usage
+-----
+First, look at callbacks/views.py to see how messages are being received
+Then set up a route in your mailgun account to forward mail to either of these two URLs:
+    http://your-server.com:8000/upload
+    http://your-server.com:8000/upload_mime

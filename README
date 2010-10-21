@@ -1,0 +1,31 @@
+Python wrapper for MailGun REST API
+
+Documentation:
+=============
+Please visit our documentation page at 
+http://documentation.mailgun.net
+
+
+Installation
+============
+
+* Make sure you have ActiveResource gem installed:
+  pip install pyactiveresource
+
+* Download mailgun.py file or pull this repo
+
+Getting started:
+================
+
+from mailgun import Mailgun, Mailbox
+
+Mailgun.init("my-api-key", "https://mailgun.net/api")
+for mailbox in Mailbox.find():
+    print "{0} has size of {1}".format (mailbox.id, mailbox.size)
+
+
+For more visit http://documentation.mailgun.net
+
+--
+MG team
+
