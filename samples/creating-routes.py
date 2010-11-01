@@ -7,17 +7,17 @@ from mailgun import *
 import urlparse
 
 def main():
-    Mailgun.init("my-api-key")
+    Mailgun.init("key-afy6amxoo2fnj$u@mc")
 
-    # lets make a catch-all route for all messages coming to @myhost.com
+    # lets make a catch-all route for all messages coming to @samples.mailgun.org
     # they will be HTTP POSTed to http://myhost/catch-all
-    Route.make_new(pattern = "*@myhost.com", 
-                   destination = "http://myhost.com/post").upsert()
+    Route.make_new(pattern = "*@samples.mailgun.org", 
+                   destination = "http://samples.mailgun.org/post").upsert()
 
     # but messages coming to press@myhost need to be redirected to my-mailbox@gmail.com
     route2 = Route()
-    route2.pattern     = 'smtp@myhost.com'
-    route2.destination = 'address@example.com'
+    route2.pattern     = 'smtp@samples.mailgun.org'
+    route2.destination = 'address@mailgun.info'
     route2.upsert()
    
     # and lets print out what we got:

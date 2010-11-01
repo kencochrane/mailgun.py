@@ -17,7 +17,7 @@ class Mailgun:
 
     '''
     @staticmethod
-    def init(api_key, api_url = "http://mailgun.net/api/"):
+    def init(api_key, api_url = "https://mailgun.net/api/"):
         MailgunResource._set_server_info(api_key, api_url)
     
     @staticmethod
