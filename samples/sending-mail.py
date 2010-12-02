@@ -12,9 +12,17 @@ from os.path import join
 def send_text_message():
     "Sending a simple text message"
     MailgunMessage.send_txt("me@samples.mailgun.org", 
-        "you@mailgun.info, him@mailgun.info",
-        "Hello!",
-        "Hi!\nI am sending you a text message through HTTP gateway!")
+                            "you@mailgun.info, him@mailgun.info",
+                            "Hello text Python API!",
+                            "Hi!\nI am sending you a text message through HTTP gateway!")
+
+    #tag the message
+    MailgunMessage.send_txt("me@samples.mailgun.org", 
+                            "you@mailgun.info, him@mailgun.info",
+                            "Hello text Python API + tag!",
+                            "Hi!\nI am sending you a text message through HTTP gateway!",
+                            "",
+                            {"headers": {MailgunMessage.MAILGUN_TAG: "sample_text_python"}})
 
 
 def send_mime_message_with_attachments():
@@ -26,6 +34,7 @@ def send_mime_message_with_attachments():
     msg['Subject'] = 'See info attached'
     msg['From'] = "me@samples.mailgun.org"
     msg['To'] = "you@mailgun.info"
+    msg[MailgunMessage.MAILGUN_TAG] = 'sample_raw_python'
 
     #some cool images from
     #Adam Hickmott / FreeDigitalPhotos.net

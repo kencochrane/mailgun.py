@@ -1,4 +1,4 @@
-import urllib, urllib2
+import urllib, urllib2, simplejson
 from pyactiveresource.activeresource import ActiveResource
 from pyactiveresource.connection import BadRequest, UnauthorizedAccess, ForbiddenAccess, ResourceNotFound, \
                                         MethodNotAllowed, ResourceConflict, ResourceInvalid, ClientError, ServerError,\
@@ -190,6 +190,8 @@ class MailgunMessage:
         
     Recipient list is comma- or semicolon- delimited string of recipients        
     '''
+    MAILGUN_TAG = "X-Mailgun-Tag"
+
     @classmethod
     def send_raw(cls, sender, recipients, mime_body, servername=''):
         '''
@@ -210,7 +212,7 @@ class MailgunMessage:
    
 
     @classmethod
-    def send_txt(cls, sender, recipients, subject, text, servername=''):
+    def send_txt(cls, sender, recipients, subject, text, servername='', options = None):
         '''
         Sends a plain-text message
         
@@ -220,6 +222,8 @@ class MailgunMessage:
             "Hi!\nI am sending the message using Mailgun")          
         '''        
         params = dict(sender=sender, recipients=recipients, subject=subject, body=text)
+        if options:
+            params['options'] = simplejson.dumps(options)
         request = _Request(cls._messages_url('txt', servername))
         request.add_data(urllib.urlencode(params))
         _post(request)
