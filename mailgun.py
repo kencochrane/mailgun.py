@@ -172,7 +172,7 @@ class Mailbox(MailgunResource):
         john@domain.com, password
         doe@domain.com, password2         
         '''
-        request = _Request("{0}/mailboxes.txt?api_key={1}".format(MailgunResource._site, MailgunResource._password))
+        request = _Request("%s/mailboxes.txt?api_key=%s" % (MailgunResource._site, MailgunResource._password))
         request.add_data(mailboxes)
         request.add_header("Content-Type", "text/plain")
         _post(request)
@@ -206,7 +206,7 @@ class MailgunMessage:
         >>> MailgunMessage.send_raw("me@myhost.com", "you@yourhost.com", raw_mime)        
         '''
         request = _Request(cls._messages_url('eml', servername))
-        request.add_data("{0}\n{1}\n\n{2}".format(sender, recipients, mime_body))
+        request.add_data("%s\n%s\n\n%s" % (sender, recipients, mime_body))
         request.add_header("Content-Type", "text/plain")
         _post(request)
    
@@ -232,6 +232,6 @@ class MailgunMessage:
          
     @staticmethod
     def _messages_url(format, servername=''):
-        return "{0}/messages.{2}?api_key={1}&servername={3}".format(
-            MailgunResource._site, MailgunResource._password, format, servername)
+        return "%(site)s/messages.%(format)s?api_key=%(password)s&servername=%(servername)s" % dict(
+            site=MailgunResource._site, password=MailgunResource._password, format=format, servername=servername)
 
