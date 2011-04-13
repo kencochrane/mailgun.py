@@ -1,9 +1,14 @@
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from email.parser import FeedParser
 from os.path import abspath, join
 from uuid import uuid4
 
+
 # POST http://host.com/upload
+# with newer versions of django, if you do not put CSRF exempt on this, 
+# you will get a HTTP 403: Forbidden, since MailGun doesn't send CSRF Token.
+@csrf_exempt
 def upload(request):
     """
     This callback receives parsed email message via HTTP POST
@@ -17,7 +22,19 @@ def upload(request):
         subject
         body-plain   [optional]
         body-html    [optional]
-
+        
+    Also available: (Not sure if they are always there)
+        X-Mailgun-Sid
+        Received
+        Message-Id
+        from
+        Subject (Yes both subject and Subject)
+        To
+        Dkim-Signature
+        Date
+        From
+        DomainKey-Signature
+    
     There may be variable number of attachments. They will be posted as uploaded
     files under "attachment-1", "attachment-2"..."attachment-N"
     """
@@ -39,6 +56,9 @@ def upload(request):
 
 
 # POST http://host.com/upload_mime
+# with newer versions of django, if you do not put CSRF exempt on this, 
+# you will get a HTTP 403: Forbidden, since MailGun doesn't send CSRF Token.
+@csrf_exempt
 def upload_mime(request):
     """
     This callback receives raw MIME messages. 
